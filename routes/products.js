@@ -97,7 +97,7 @@ router.get('/edit/:_id', isAuthenticated, (req, res) => {
     }).sort('name')   
 })
 
-// POST: /products/edit => update the db for the selected doc
+// POST: /products/edit/ => update the db for the selected doc
 router.post('/edit/:_id', isAuthenticated, (req, res) => {
     Product.findByIdAndUpdate({ _id: req.params._id }, req.body, null, (err, product) => {
         if (err) {
