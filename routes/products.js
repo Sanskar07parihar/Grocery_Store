@@ -6,12 +6,12 @@ const globals = require('./globalFunctions')
 // import Region model
 const Product = require('../models/product')
 
-function isAuthenticated(req, res, next){
-    if (req.isAuthenticated()){
-      return next()
-    }
-    res.redirect('/auth/login')
-  }
+// function isAuthenticated(req, res, next){
+//     if (req.isAuthenticated()){
+//       return next()
+//     }
+//     res.redirect('/auth/login')
+//   }
 
 // GET: /products => show list of products
 router.get('/', (req, res) => {
@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
 })
 
 // GET: /products/create => display blank form
-router.get('/create', isAuthenticated, (req, res) => {
+router.get('/create', globals.isAuthenticated , (req, res) => {
     
     Product.find((err, products) => {
         if (err) {
@@ -47,7 +47,7 @@ router.get('/create', isAuthenticated, (req, res) => {
 })
 
 // POST: /products/create => process form submission
-router.post('/create', isAuthenticated, (req, res) => {
+router.post('/create', globals.isAuthenticated, (req, res) => {
     
     Product.create(req.body, (err, newProduct) => {
         if (err) {
@@ -60,7 +60,7 @@ router.post('/create', isAuthenticated, (req, res) => {
 })
 
 // GET: /products/delete/abc123 => remove selected Productdocument
-router.get('/delete/:_id', isAuthenticated, (req, res) => {
+router.get('/delete/:_id', globals.isAuthenticated , (req, res) => {
     Product.remove({ _id: req.params._id }, (err) => {
         if (err) {
             console.log(err)
@@ -72,7 +72,7 @@ router.get('/delete/:_id', isAuthenticated, (req, res) => {
 })
 
 // GET: /products/edit/abc123 => display populated form for editing
-router.get('/edit/:_id', isAuthenticated, (req, res) => {
+router.get('/edit/:_id', globals.isAuthenticated , (req, res) => {
     
     Product.find((err, products) => {
         if (err) {
@@ -98,7 +98,7 @@ router.get('/edit/:_id', isAuthenticated, (req, res) => {
 })
 
 // POST: /products/edit/ => update the db for the selected doc
-router.post('/edit/:_id', isAuthenticated, (req, res) => {
+router.post('/edit/:_id', globals.isAuthenticated , (req, res) => {
     Product.findByIdAndUpdate({ _id: req.params._id }, req.body, null, (err, product) => {
         if (err) {
             console.log(err)
